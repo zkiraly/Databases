@@ -97,4 +97,14 @@ and F.ID2 = H2.ID and H1.grade <> H2.grade) order by H.grade, H.name;
 select H.name, H.grade from Highschooler as H where H.ID in 
 (select L1.ID2 from Likes as L1 join Likes as L2 where L1.ID2 = L2.ID2 and 
 L1.ID1 <> L2.ID1);
+
+/* Data Modification Excercises Core Set */
+
+/* Question 1 */
+/* It's time for the seniors to graduate. Remove all 12th graders from Highschooler. */
+delete from Highschooler where ID in (select ID from Highschooler where grade = 12);
+
+/* Question 2 */
+/* If two students A and B are friends, and A likes B but not vice-versa, remove the Likes tuple. */
+
 	
