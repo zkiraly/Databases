@@ -79,3 +79,21 @@ select distinct title, (select avg(stars) from Rating where Rating.mID = Movie.m
 /* Question 9 */
 /* Find the names of all reviewers who have contributed three or more ratings. (As an extra challenge, try writing the query without HAVING or without COUNT.) */
 select name from (select distinct R1.rID from (Rating R1 join Rating R2) join Rating R3 where R1.rID = R2.rID and R2.rID = R3.rID and ((R1.ratingDate <> R2.ratingDate and R2.ratingDate <> R3.ratingDate and R1.ratingDate <> R3.ratingDate) or (R1.mID <> R2.mID and R2.mID <> R3.mID and R1.mID <> R3.mID))) id, Reviewer where id.rID = Reviewer.rID order by name
+
+/* Modification Exercises */
+
+/* Question 1 */
+/* Add the reviewer Roger Ebert to your database, with an rID of 209. */
+insert into Reviewer values (209, 'Roger Ebert');
+
+/* Question 2 */
+/* Insert 5-star ratings by James Cameron for all movies in the database. Leave the review date as NULL. */
+insert into Rating select 207, mID, 5, null from Movie;
+
+/* Question 3 */
+/* For all movies that have an average rating of 4 stars or higher, add 25 to the release year. (Update the existing tuples; don't insert new tuples.) */
+Update Movie SET year = year + 25 WHERE Movie.mID in (SELECT Distinct mID FROM Rating group by mID having AVG(Rating.stars) >= 4  )
+
+/* Question 4 */
+/* Remove all ratings where the movie's year is before 1970 or after 2000, and the rating is fewer than 4 stars. */
+delete from Rating where Rating.mID not in (select mID from Movie where year >= 1970 and year <= 2000) and Rating.stars < 4;
